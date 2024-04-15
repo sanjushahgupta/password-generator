@@ -1,4 +1,5 @@
-## Password Generator 
+## Password Generator 🔒
+
 An application to generate a random password with various customizable options.
 
 ## Features
