@@ -1,11 +1,83 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const PasswordGenerator = () => {
   const [lengthOfPassword, setLengthOfPassword] = useState(8);
   const [numberAllowed, setNumberAllowed] = useState(false);
   const [charAllowed, setCharAllowed] = useState(false);
   const [generatedPassword, setGeneratedPassword] = useState("");
-  console.log("value od number", numberAllowed);
+
+  const PasswordGenerator = () => {
+    let newPassword = "";
+    const char = ["$", "@", "!", "*", "?"];
+    const num = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let str = [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z",
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g",
+      "h",
+      "i",
+      "j",
+      "k",
+      "l",
+      "m",
+      "n",
+      "o",
+      "p",
+      "q",
+      "r",
+      "s",
+      "t",
+      "u",
+      "v",
+      "w",
+      "x",
+      "y",
+      "z",
+    ];
+    if (charAllowed) str.push(...char);
+    if (numberAllowed) str.push(...num);
+    for (let i = 0; i < lengthOfPassword; i++) {
+      let index = Math.floor(Math.random() * str.length);
+      newPassword += str[index];
+    }
+
+    setGeneratedPassword(newPassword);
+  };
+
+  useEffect(() => {
+    PasswordGenerator();
+  }, [lengthOfPassword, numberAllowed, charAllowed]);
+
   return (
     <>
       <div
