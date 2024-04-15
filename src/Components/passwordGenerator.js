@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const PasswordGenerator = () => {
   const [passwordLength, setpasswordLength] = useState(8);
@@ -9,9 +9,9 @@ const PasswordGenerator = () => {
   const [copyButtonText, setCopyButtonText] = useState("copy");
 
   const generateRandomPassword = () => {
-    let newPassword = "";
-    let char = ["$", "@", "!", "*", "?"];
-    let num = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let generatedPassword = "";
+    let chars = ["$", "@", "*", "?"];
+    let nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     let letters = [
       "A",
       "B",
@@ -66,26 +66,35 @@ const PasswordGenerator = () => {
       "y",
       "z",
     ];
-    if (includeSpecialCharacters) letters.push(...char);
-    if (includeNumbers) letters.push(...num);
 
-    for (let i = 0; i < passwordLength; i++) {
-      let index = Math.floor(Math.random() * letters.length);
-      newPassword += letters[index];
+    if (includeSpecialCharacters) {
+      letters.push(...chars);
+      let index = Math.floor(Math.random() * chars.length);
+      generatedPassword += chars[index];
     }
-    setPassword(newPassword);
+
+    if (includeNumbers) {
+      letters.push(...nums);
+      let index = Math.floor(Math.random() * nums.length);
+      generatedPassword += nums[index];
+    }
+
+    for (let i = generatedPassword.length; i < passwordLength; i++) {
+      let index = Math.floor(Math.random() * letters.length);
+      generatedPassword += letters[index];
+    }
+
+    setPassword(generatedPassword);
   };
 
-  const handleCopyPassword =
-    (async () => {
-      try {
-        await window.navigator.clipboard.writeText(password);
-        setCopyButtonText("copied");
-      } catch (e) {
-        console.error("Failed to copy password:", e);
-      }
-    },
-    [password]);
+  const handleCopyPassword = async () => {
+    try {
+      await window.navigator.clipboard.writeText(password);
+      setCopyButtonText("copied");
+    } catch (e) {
+      console.error("Failed to copy password:", e);
+    }
+  };
 
   useEffect(() => {
     generateRandomPassword();
@@ -96,8 +105,8 @@ const PasswordGenerator = () => {
     <>
       <div className="min-h-screen flex flex-col items-center justify-center">
         <div
-          className="w-full max-w-md mx-auto rounded-lg shadow-md px-4  my-8 text-orange-500
-  bg-gray-700"
+          className="w-full max-w-md mx-auto rounded-lg shadow-md px-4 
+          my-8 text-orange-500 bg-gray-700"
         >
           <h1 className="w-full max-w-md  p-4 text-xl text-white">
             Password Generator
@@ -130,6 +139,7 @@ const PasswordGenerator = () => {
             <label htmlFor="lengthOfPassword">Length:{passwordLength} </label>
             <input
               id="numberAllowed"
+              checked={includeNumbers}
               value={includeNumbers}
               type="checkbox"
               onClick={(e) => setIncludeNumbers((prev) => !prev)}
@@ -138,6 +148,7 @@ const PasswordGenerator = () => {
             <input
               id="charAllowed"
               type="checkbox"
+              checked={includeSpecialCharacters}
               value={includeSpecialCharacters}
               onClick={(e) => setIncludeSpecialCharacters((prev) => !prev)}
             ></input>
