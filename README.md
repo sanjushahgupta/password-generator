@@ -4,7 +4,7 @@ An application to generate a random password with various customizable options.
 
 ## Features
 - Generate Secure Password
-- Include/Exclude Special Characters.
+- Include/Exclude Special Characters
 - Include/Exclude Numbers
 - Copy Password
 
